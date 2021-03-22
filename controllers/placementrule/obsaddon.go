@@ -11,7 +11,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	obv1beta1 "github.com/open-cluster-management/multicluster-observability-operator/api/v1beta1"
+	obsv1beta1 "github.com/open-cluster-management/multicluster-observability-operator/api/v1beta1"
 	"github.com/open-cluster-management/multicluster-observability-operator/pkg/util"
 )
 
@@ -21,7 +21,7 @@ const (
 )
 
 func deleteObsAddon(client client.Client, namespace string) error {
-	found := &obv1beta1.ObservabilityAddon{}
+	found := &obsv1beta1.ObservabilityAddon{}
 	err := client.Get(context.TODO(), types.NamespacedName{Name: obsAddonName, Namespace: namespace}, found)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -45,7 +45,7 @@ func deleteObsAddon(client client.Client, namespace string) error {
 }
 
 func createObsAddon(client client.Client, namespace string) error {
-	ec := &obv1beta1.ObservabilityAddon{
+	ec := &obsv1beta1.ObservabilityAddon{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      obsAddonName,
 			Namespace: namespace,
@@ -54,7 +54,7 @@ func createObsAddon(client client.Client, namespace string) error {
 			},
 		},
 	}
-	found := &obv1beta1.ObservabilityAddon{}
+	found := &obsv1beta1.ObservabilityAddon{}
 	err := client.Get(context.TODO(), types.NamespacedName{Name: obsAddonName, Namespace: namespace}, found)
 	if err != nil && errors.IsNotFound(err) {
 		log.Info("Creating observabilityaddon cr", "namespace", namespace)
@@ -74,7 +74,7 @@ func createObsAddon(client client.Client, namespace string) error {
 }
 
 func deleteStaleObsAddon(c client.Client, namespace string) error {
-	found := &obv1beta1.ObservabilityAddon{}
+	found := &obsv1beta1.ObservabilityAddon{}
 	err := c.Get(context.TODO(), types.NamespacedName{Name: obsAddonName, Namespace: namespace}, found)
 	if err != nil {
 		if errors.IsNotFound(err) {
