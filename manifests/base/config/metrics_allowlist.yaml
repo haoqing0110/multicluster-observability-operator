@@ -9,7 +9,6 @@ data:
       - apiserver_request_count
       - apiserver_request_latencies_summary_count
       - apiserver_request_latencies_summary_sum
-      - apiserver_request_total
       - authenticated_user_requests
       - authentication_attempts
       - cluster:capacity_cpu_cores:sum
@@ -144,3 +143,7 @@ data:
     rules:
       - record: apiserver_request_duration_seconds:histogram_quantile_99
         expr: histogram_quantile(0.99,sum(rate(apiserver_request_duration_seconds_bucket{job=\"apiserver\", verb!=\"WATCH\"}[5m])) by (verb,le))
+      - record: sum:apiserver_request_total:1h
+        expr: sum(rate(apiserver_request_total{job=\"apiserver\"}[1h])) by(code, instance)
+      - record: sum:apiserver_request_total:5m
+        expr: sum(rate(apiserver_request_total{job=\"apiserver\"}[5m])) by(code, instance)
