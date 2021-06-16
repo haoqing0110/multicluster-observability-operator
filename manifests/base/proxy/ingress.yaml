@@ -13,6 +13,8 @@ spec:
       paths:
       - path: "/observability-query"
         backend:
-          serviceName: rbac-query-proxy
-          servicePort: 8443
+          service:
+            name: rbac-query-proxy
+            port:
+              number: 8443
         pathType: ImplementationSpecific
